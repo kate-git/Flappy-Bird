@@ -1,5 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Happy flappy bird/Assets/Flappy.unity.meta
 guid: 295225157ea68524ca3bc49275b2816f
+========
+guid: f26f29338257c4596b61e6abb262e932
+folderAsset: yes
+>>>>>>>> main:Happy flappy bird/Assets/Prefabs.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
