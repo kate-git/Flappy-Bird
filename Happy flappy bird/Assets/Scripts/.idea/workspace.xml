@@ -1,8 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="83a2a5fa-22fe-4535-8f44-3e6f91fa912a" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Polytope Studio/Lowpoly_Environments/Prefabs/Trees/PT_Pine_Tree_03_dead.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Polytope Studio/Lowpoly_Environments/Prefabs/Trees/PT_Pine_Tree_03_dead.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Prefabs/FlappyEnvirnonment_01.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Prefabs/FlappyEnvirnonment_01.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Prefabs/FlappyEnvirnonment_03.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Prefabs/FlappyEnvirnonment_03.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Prefabs/FlappyEnvironment_02.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/../Prefabs/FlappyEnvironment_02.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Scenes/TestEnvironment.unity" beforeDir="false" afterPath="$PROJECT_DIR$/../Scenes/TestEnvironment.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +20,11 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/CameraFollow.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Flappcontroller.cs" root0="SKIP_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/GroundSpawner.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/PlayerMovementCapsule.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../Library/PackageCache/com.unity.collab-proxy/Editor/ViewSwitcher.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
@@ -23,14 +34,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "main",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Kate&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -41,6 +56,12 @@
       <updated>1736777545840</updated>
       <workItem from="1736777547595" duration="1000" />
       <workItem from="1736777559016" duration="4000" />
+      <workItem from="1736877892180" duration="1847000" />
+      <workItem from="1736880454139" duration="1432000" />
+      <workItem from="1736881983870" duration="38000" />
+      <workItem from="1736882223918" duration="10000" />
+      <workItem from="1736883597037" duration="1444000" />
+      <workItem from="1736885127631" duration="55000" />
     </task>
     <servers />
   </component>
