@@ -38,11 +38,12 @@
     },
     "com.meta.xr.sdk.core": {
       "version": "71.0.0",
-<<<<<<< HEAD
+
       "depth": 0,
-=======
+
       "depth": 1,
->>>>>>> main
+
+
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -346,7 +347,7 @@
       },
       "url": "https://packages.unity.com"
     },
-<<<<<<< HEAD
+
     "com.unity.xr.hands": {
       "version": "1.5.0",
       "depth": 0,
@@ -360,8 +361,7 @@
       },
       "url": "https://packages.unity.com"
     },
-=======
->>>>>>> main
+
     "com.unity.xr.interaction.toolkit": {
       "version": "3.0.7",
       "depth": 0,
