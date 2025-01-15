@@ -154,17 +154,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpVibrationStrength: 0.8
-  jumpVibrationDuration: 0.5
+  jumpVibrationDuration: 0.8
   glideVibrationStrength: 0.8
-  glideVibrationDuration: 0.63
+  glideVibrationDuration: 0.5
   Jump_Force: 5
   ForwardForce: 1
-  IncreasedForwardForce: 1
+  IncreasedForwardForce: 1.2
   MoveSpeed: 1
   jumpButton: 2105346
   gripButton: 4210690
   jumpCooldown: 0.1
-  paraglideDrag: 4
+  paraglideDrag: 5
 --- !u!54 &38062872
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -207,16 +207,15 @@ MonoBehaviour:
   leftHandAnchor: {fileID: 274530766}
   rightHandAnchor: {fileID: 625566562}
   headAnchor: {fileID: 155659023}
-  playerAnimator: {fileID: 38062876}
   flapThreshold: 0.01
-  liftForce: 7
+  liftForce: 10
   heightNeededToFlap: -0.4
-  forwardForce: 0.1
-  gravityEffect: -0.5
+  forwardForce: 1.14
+  gravityEffect: -0.66
   birdRigidbody: {fileID: 38062872}
-  cooldownTime: 0.01
-  hapticStrength: 0.8
-  hapticDuration: 0.5
+  birdAnimator: {fileID: 38062876}
+  vibrationStrength: 0.74
+  vibrationDuration: 0.32
 --- !u!4 &38062874
 Transform:
   m_ObjectHideFlags: 0
@@ -286,7 +285,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38062870}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f19fa50a461dbe84f8da108496d7a489, type: 3}
   m_Name: 
@@ -414,11 +413,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 362744292608456522, guid: f9664772b005c4b7abd833d7b89a6beb, type: 3}
   m_PrefabInstance: {fileID: 2350128682111307176}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1182164786 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2483171112402263010, guid: f54012181eacade4ea242c65f804720f, type: 3}
-  m_PrefabInstance: {fileID: 1255229815}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1255229815
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -427,6 +421,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 38062874}
     m_Modifications:
+    - target: {fileID: 2483171112407822886, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: dynamicResolutionVersion
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483171112407822886, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: quest2MaxDynamicResolutionScale
+      value: 1.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 2483171112407822886, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      propertyPath: quest3MaxDynamicResolutionScale
+      value: 1.85
+      objectReference: {fileID: 0}
     - target: {fileID: 2514675399181695721, guid: f54012181eacade4ea242c65f804720f, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -473,7 +479,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 2514675399181695721, guid: f54012181eacade4ea242c65f804720f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1754407606}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f54012181eacade4ea242c65f804720f, type: 3}
 --- !u!1 &1309397645 stripped
@@ -576,7 +585,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754407604}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8cdcc4227ad37144197a32af558bb6b1, type: 3}
   m_Name: 
@@ -585,11 +594,11 @@ MonoBehaviour:
   - {fileID: 1161847085}
   - {fileID: 1309397645}
   - {fileID: 591213976}
-  initialBlocks: 3
-  blockLength: 20
-  maxBlocks: 5
-  player: {fileID: 1182164786}
-  safeZone: 40
+  initialBlocks: 20
+  blockLength: 60
+  maxBlocks: 15
+  player: {fileID: 1923431611}
+  safeZone: 1000
 --- !u!4 &1754407606
 Transform:
   m_ObjectHideFlags: 0
@@ -598,12 +607,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1754407604}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.047638837, y: 20.099628, z: 7.7223444}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1923431611}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1923431611 stripped
 Transform:
@@ -790,4 +799,3 @@ SceneRoots:
   - {fileID: 3911181004560896288}
   - {fileID: 8066647517136688856}
   - {fileID: 38062874}
-  - {fileID: 1754407606}
