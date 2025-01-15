@@ -29,10 +29,13 @@ public class Haptics : MonoBehaviour
 
     private int controllerLayerIndex; // Index of the "Controller" layer in Animator
 
+    public AudioSource flapSound; // AudioSource for jumping
+    public AudioSource windSound; // AudioSource for gliding
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+
         if (!TryGetComponent<Animator>(out playerAnimator))
         {
             Debug.LogWarning("Player Animator is not assigned. Animations may not play correctly.");
@@ -68,6 +71,7 @@ public class Haptics : MonoBehaviour
         {
             Jump();
             TriggerHapticFeedback(jumpVibrationStrength, jumpVibrationDuration);
+            PlayJumpSound(); // Play flap sound when jumping
         }
     }
 
@@ -83,6 +87,7 @@ public class Haptics : MonoBehaviour
         else
         {
             isParagliding = false;
+            StopGlideSound(); // Stop glide sound when not paragliding
         }
 
         if (isParagliding)
@@ -90,6 +95,7 @@ public class Haptics : MonoBehaviour
             ApplyParaglide(paraglideDrag);
             IncreaseForwardSpeedWhileGliding();
             TriggerHapticFeedback(glideVibrationStrength, glideVibrationDuration);
+            PlayGlideSound(); // Play wind sound when gliding
         }
     }
 
@@ -154,5 +160,29 @@ public class Haptics : MonoBehaviour
         yield return new WaitForSeconds(duration);
         OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
         OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+    }
+
+    private void PlayJumpSound()
+    {
+        if (flapSound != null && !flapSound.isPlaying)
+        {
+            flapSound.Play();
+        }
+    }
+
+    private void PlayGlideSound()
+    {
+        if (windSound != null && !windSound.isPlaying)
+        {
+            windSound.Play();
+        }
+    }
+
+    private void StopGlideSound()
+    {
+        if (windSound != null && windSound.isPlaying)
+        {
+            windSound.Stop();
+        }
     }
 }

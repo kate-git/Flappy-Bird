@@ -45,7 +45,7 @@ public class TerrainSpawner : MonoBehaviour
         {
             // Reuse the oldest block if the maximum number of blocks is reached
             block = activeBlocks.Dequeue();
-            block.transform.position = new Vector3(0, 0, spawnZ); // Only adjust Z-axis
+            block.transform.position = Vector3.forward * spawnZ;
             block.SetActive(true);
             Debug.Log($"Reusing block at position: {block.transform.position}");
         }
@@ -53,7 +53,7 @@ public class TerrainSpawner : MonoBehaviour
         {
             // Instantiate a new block
             GameObject randomPrefab = terrainPrefabs[Random.Range(0, terrainPrefabs.Length)];
-            block = Instantiate(randomPrefab, new Vector3(0, 0, spawnZ), Quaternion.identity); // Only adjust Z-axis
+            block = Instantiate(randomPrefab, Vector3.forward * spawnZ, Quaternion.identity);
         }
 
         spawnZ += blockLength; // Update the spawn position
