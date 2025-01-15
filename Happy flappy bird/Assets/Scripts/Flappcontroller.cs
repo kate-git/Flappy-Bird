@@ -5,6 +5,7 @@ public class HandTracker : MonoBehaviour
     public Transform leftHandAnchor; // Placeholder för vänster hand
     public Transform rightHandAnchor; // Placeholder för höger hand
     public Transform headAnchor; // Referenspunkt för spelarens huvud
+    public Animator playerAnimator; // Reference to the Animator
 
     private Vector3 previousLeftHandPosition;
     private Vector3 previousRightHandPosition;
@@ -23,6 +24,9 @@ public class HandTracker : MonoBehaviour
 
     private bool isReadyToFlap = false;
 
+    public float hapticStrength = 0.8f; // Haptic feedback strength
+    public float hapticDuration = 0.1f; // Duration of the haptic feedback
+
     void Start()
     {
         if (leftHandAnchor == null || rightHandAnchor == null || headAnchor == null || birdRigidbody == null)
@@ -32,32 +36,29 @@ public class HandTracker : MonoBehaviour
 
         if (leftHandAnchor != null) previousLeftHandPosition = leftHandAnchor.position;
         if (rightHandAnchor != null) previousRightHandPosition = rightHandAnchor.position;
+
+        if (playerAnimator == null)
+        {
+            Debug.LogError("Player Animator is missing! Please assign an Animator component.");
+        }
     }
 
     void Update()
     {
         if (leftHandAnchor != null && rightHandAnchor != null && headAnchor != null)
         {
-
-
-
-
-            // Beräkna rörelser för båda händerna relativt till deras tidigare position
+            // Calculate movements for both hands relative to their previous positions
             Vector3 leftHandMovement = leftHandAnchor.position - previousLeftHandPosition;
             Vector3 rightHandMovement = rightHandAnchor.position - previousRightHandPosition;
 
-            // Kontrollera handhöjden relativt till huvudet
+            // Check hand height relative to the head
             float leftHandHeightRelativeToHead = leftHandAnchor.position.y - headAnchor.position.y;
             float rightHandHeightRelativeToHead = rightHandAnchor.position.y - headAnchor.position.y;
-
-            //Debug.Log($"Left hand height: {leftHandHeightRelativeToHead}, Right hand height: {rightHandHeightRelativeToHead}");
-
 
             if (!isReadyToFlap)
             {
                 if (ShouldBeReadyToFlap(leftHandHeightRelativeToHead, rightHandHeightRelativeToHead))
                 {
-                    Debug.Log("Ready to flap!");
                     isReadyToFlap = true;
                 }
             }
@@ -70,14 +71,7 @@ public class HandTracker : MonoBehaviour
                 }
             }
 
-            // Tillåt rörelser både över och under huvudet
-            //if (ShouldFlap(leftHandMovement, rightHandMovement, leftHandHeightRelativeToHead, rightHandHeightRelativeToHead)) // Tillåt rörelser nära huvudhöjden
-            //{
-            //    Flap();
-            //    lastFlapTime = Time.time;
-            //}
-
-            // Uppdatera tidigare positioner
+            // Update previous positions
             previousLeftHandPosition = leftHandAnchor.position;
             previousRightHandPosition = rightHandAnchor.position;
         }
@@ -85,38 +79,19 @@ public class HandTracker : MonoBehaviour
 
     private bool ShouldFlap(float leftHandHeightRelativeToHead, float rightHandHeightRelativeToHead)
     {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            return true;
-        }
-
         return leftHandHeightRelativeToHead < heightNeededToFlap && rightHandHeightRelativeToHead < heightNeededToFlap;
     }
 
     private static bool ShouldBeReadyToFlap(float leftHandHeightRelativeToHead, float rightHandHeightRelativeToHead)
     {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            return true;
-        }
-
         return leftHandHeightRelativeToHead > 0 && rightHandHeightRelativeToHead > 0;
-    }
-
-    private bool ShouldFlap(Vector3 leftHandMovement, Vector3 rightHandMovement, float leftHandHeightRelativeToHead, float rightHandHeightRelativeToHead)
-    {
-        return Input.GetKeyDown(KeyCode.Space);
-
-        return Time.time > lastFlapTime + cooldownTime &&
-                        leftHandMovement.y > flapThreshold && rightHandMovement.y > flapThreshold &&
-                        (leftHandHeightRelativeToHead > -0.2f || rightHandHeightRelativeToHead > -0.2f);
     }
 
     void FixedUpdate()
     {
         if (!isFlapping && birdRigidbody != null)
         {
-            // Applicera en konstant nedåtriktad kraft (simulerar gravitation)
+            // Apply a constant downward force (simulate gravity)
             birdRigidbody.AddForce(Vector3.up * gravityEffect, ForceMode.Acceleration);
         }
     }
@@ -131,18 +106,47 @@ public class HandTracker : MonoBehaviour
 
         isFlapping = true;
 
-        // Applicera krafterna
+        // Trigger the IsFlapping animation in the Animator
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("isFlapping", true);
+        }
+
+        // Apply forces
         birdRigidbody.AddForce(Vector3.up * liftForce, ForceMode.Impulse);
         birdRigidbody.AddForce(Vector3.forward * forwardForce, ForceMode.Impulse);
 
-        Debug.Log("Flap applied: Lift and forward forces");
+        // Trigger haptic feedback
+        TriggerHapticFeedback(hapticStrength, hapticDuration);
 
-        // Återställ flapping status efter en kort stund
-        Invoke(nameof(ResetFlapping), 0.1f);
+        // Automatically reset flapping after the cooldown time
+        Invoke(nameof(ResetFlapping), cooldownTime);
     }
 
     void ResetFlapping()
     {
         isFlapping = false;
+
+        // Reset the IsFlapping animation parameter
+        if (playerAnimator != null)
+        {
+            playerAnimator.SetBool("isFlapping", false);
+        }
+    }
+
+    void TriggerHapticFeedback(float strength, float duration)
+    {
+        // Trigger haptics on both controllers
+        OVRInput.SetControllerVibration(strength, strength, OVRInput.Controller.LTouch);
+        OVRInput.SetControllerVibration(strength, strength, OVRInput.Controller.RTouch);
+
+        // Stop haptics after the duration
+        Invoke(nameof(StopHapticFeedback), duration);
+    }
+
+    void StopHapticFeedback()
+    {
+        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
+        OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
     }
 }
