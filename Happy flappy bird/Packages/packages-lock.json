@@ -7,8 +7,8 @@
       "dependencies": {
         "com.meta.xr.sdk.core": "71.0.0",
         "com.unity.textmeshpro": "3.0.6",
-        "com.unity.ai.navigation": "1.1.4"
-        
+        "com.unity.ai.navigation": "1.1.4",
+        "com.unity.nuget.newtonsoft-json": "3.0.2"
       },
       "url": "https://packages.unity.com"
     },
@@ -38,12 +38,7 @@
     },
     "com.meta.xr.sdk.core": {
       "version": "71.0.0",
-
       "depth": 0,
-
-     
-
-
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
@@ -347,7 +342,6 @@
       },
       "url": "https://packages.unity.com"
     },
-
     "com.unity.xr.hands": {
       "version": "1.5.0",
       "depth": 0,
@@ -361,7 +355,6 @@
       },
       "url": "https://packages.unity.com"
     },
-
     "com.unity.xr.interaction.toolkit": {
       "version": "3.0.7",
       "depth": 0,
