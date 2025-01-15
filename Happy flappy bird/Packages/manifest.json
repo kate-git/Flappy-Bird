@@ -1,10 +1,9 @@
 {
   "dependencies": {
     "com.meta.xr.sdk.all": "71.0.0",
-<<<<<<< HEAD
+
     "com.meta.xr.sdk.core": "71.0.0",
-=======
->>>>>>> main
+
     "com.unity.ai.navigation": "2.0.5",
     "com.unity.collab-proxy": "2.6.0",
     "com.unity.ide.rider": "3.0.34",
@@ -17,10 +16,8 @@
     "com.unity.timeline": "1.8.7",
     "com.unity.ugui": "2.0.0",
     "com.unity.visualscripting": "1.9.5",
-<<<<<<< HEAD
+
     "com.unity.xr.hands": "1.5.0",
-=======
->>>>>>> main
     "com.unity.xr.interaction.toolkit": "3.0.7",
     "com.unity.xr.management": "4.5.0",
     "com.unity.xr.oculus": "4.4.0",
