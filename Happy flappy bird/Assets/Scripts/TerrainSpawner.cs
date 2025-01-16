@@ -4,24 +4,49 @@ using System.Collections.Generic;
 public class TerrainSpawner : MonoBehaviour
 {
     [Header("Terrain Settings")]
-    public GameObject[] terrainPrefabs; // Array to hold all terrain prefabs
-    public int initialBlocks = 3; // Number of blocks to spawn at the start
-    public float blockLength = 20f; // Length of each terrain block
-    public int maxBlocks = 5; // Maximum number of active terrain blocks
+    [Tooltip("Alla Terrain-prefabs (varje prefab måste ha en Terrain-komponent i något child-objekt).")]
+    public GameObject[] terrainPrefabs;
+
+    [Tooltip("Max antal aktiva block i scenen innan vi återanvänder det äldsta.")]
+    public int maxBlocks = 5;
 
     [Header("Player Settings")]
-    public Transform player; // Transform of the player or camera
+    [Tooltip("Spelarens/kamerans transform som rör sig i Z-axeln.")]
+    public Transform player;
 
-    [Header("Spawn Settings")]
-    public float safeZone = 40f; // Distance before a block is recycled
+    [Header("Spawn/Recycling Settings")]
+    [Tooltip("Hur långt framför spelaren vi ska trigga nästa block-spawn (dvs hur tidigt vi spawnar).")]
+    public float spawnTriggerDistance = 50f;
 
-    private Queue<GameObject> activeBlocks = new Queue<GameObject>(); // Queue to track active terrain blocks
-    private float spawnZ = 0f; // Z-position for the next spawn
+    [Tooltip("Hur mycket i Z-led vi ska offseta blockets position när det spawnas.")]
+    public float spawnOffset = 0f;
+
+    // Interna variabler
+    private Queue<GameObject> activeBlocks = new Queue<GameObject>();
+    private float currentSpawnZ = 0f;
+    private int nextPrefabIndex = 0;
+    private Dictionary<int, float> prefabLengths = new Dictionary<int, float>();
 
     void Start()
     {
-        // Spawn the initial blocks
-        for (int i = 0; i < initialBlocks; i++)
+        // Kolla att prefabs har Terrain-komponent i sina barn och hämta dess längd
+        for (int i = 0; i < terrainPrefabs.Length; i++)
+        {
+            float length = GetTerrainLength(terrainPrefabs[i]);
+            if (length <= 0f)
+            {
+                Debug.LogError(
+                    $"Prefab '{terrainPrefabs[i].name}' saknar Terrain-komponent " +
+                    "eller har ogiltig TerrainData i child-objekt!"
+                );
+                continue;
+            }
+            prefabLengths[i] = length;
+        }
+
+        // Spawnar en första omgång: alla prefabs en gång + 2 extra.
+        // -> Då ligger redan minst två block "i förväg".
+        for (int i = 0; i < terrainPrefabs.Length + 2; i++)
         {
             SpawnBlock();
         }
@@ -29,44 +54,81 @@ public class TerrainSpawner : MonoBehaviour
 
     void Update()
     {
-        // Check if new blocks need to be spawned
-        if (player.position.z - safeZone > (spawnZ - initialBlocks * blockLength))
+        // Om spelaren är så pass nära 'currentSpawnZ' (alltså den punkt där nästa block tar vid)
+        // minus en viss "framför-distans" (spawnTriggerDistance),
+        // så spawnar vi en ny bit i god tid innan spelaren når dit.
+        if (player.position.z + spawnTriggerDistance > currentSpawnZ)
         {
             SpawnBlock();
-            RecycleBlock();
+            RecycleOldestIfNeeded();
         }
     }
 
+    /// <summary>
+    /// Hämtar Terrain-komponent (i child-objekt) och returnerar Z-storleken.
+    /// </summary>
+    float GetTerrainLength(GameObject prefab)
+    {
+        Terrain terrain = prefab.GetComponentInChildren<Terrain>();
+        if (terrain != null && terrain.terrainData != null)
+        {
+            return terrain.terrainData.size.z;
+        }
+        return 0f;
+    }
+
+    /// <summary>
+    /// Spawnar (eller återanvänder) nästa block i ordningen,
+    /// och lägger det på 'currentSpawnZ + spawnOffset' i Z-led.
+    /// Stegar sedan 'currentSpawnZ' med längden på blocket.
+    /// </summary>
     void SpawnBlock()
     {
+        int index = nextPrefabIndex;
+        if (!prefabLengths.ContainsKey(index) || prefabLengths[index] <= 0f)
+        {
+            Debug.LogWarning($"Prefab med index {index} är ogiltig. Avbryter SpawnBlock.");
+            return;
+        }
+
+        float length = prefabLengths[index];
+        GameObject prefab = terrainPrefabs[index];
         GameObject block;
 
         if (activeBlocks.Count >= maxBlocks)
         {
-            // Reuse the oldest block if the maximum number of blocks is reached
+            // Återanvänd äldsta blocket om vi redan har för många aktiva
             block = activeBlocks.Dequeue();
-            block.transform.position = Vector3.forward * spawnZ;
             block.SetActive(true);
-            Debug.Log($"Reusing block at position: {block.transform.position}");
+            block.transform.position = new Vector3(0f, 0f, currentSpawnZ + spawnOffset);
+            Debug.Log($"[Reuse] Lägger {block.name} på Z: {currentSpawnZ + spawnOffset}");
         }
         else
         {
-            // Instantiate a new block
-            GameObject randomPrefab = terrainPrefabs[Random.Range(0, terrainPrefabs.Length)];
-            block = Instantiate(randomPrefab, Vector3.forward * spawnZ, Quaternion.identity);
+            // Annars instansierar vi ett nytt
+            block = Instantiate(prefab, new Vector3(0f, 0f, currentSpawnZ + spawnOffset), Quaternion.identity);
+            Debug.Log($"[New] Lägger {block.name} på Z: {currentSpawnZ + spawnOffset}");
         }
 
-        spawnZ += blockLength; // Update the spawn position
         activeBlocks.Enqueue(block);
+
+        // Flytta fram 'currentSpawnZ' med blockets längd
+        currentSpawnZ += length;
+
+        // Välj nästa prefab i rundtur
+        nextPrefabIndex = (nextPrefabIndex + 1) % terrainPrefabs.Length;
     }
 
-    void RecycleBlock()
+    /// <summary>
+    /// Om vi har fler aktiva block än max, inaktiverar vi det äldsta.
+    /// </summary>
+    void RecycleOldestIfNeeded()
     {
         if (activeBlocks.Count > maxBlocks)
         {
-            GameObject blockToRecycle = activeBlocks.Dequeue();
-            blockToRecycle.SetActive(false); // Deactivate the block for performance optimization
-            Debug.Log($"Recycling block at position: {blockToRecycle.transform.position}");
+            GameObject oldestBlock = activeBlocks.Dequeue();
+            oldestBlock.SetActive(false);
+            Debug.Log($"Inaktiverar block [{oldestBlock.name}] som är för långt bak.");
         }
     }
 }
