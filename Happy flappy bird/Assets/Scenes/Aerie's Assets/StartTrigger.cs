@@ -4,12 +4,12 @@ public class StartTrigger : MonoBehaviour
 {
     public PlayerController playerController; // Reference to the player controller script
 
-    // This method is called when the player enters the trigger zone
-    private void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // Make sure the player is the one colliding with the trigger
+        if (other.CompareTag("Player"))
         {
-            playerController.StartGame(); // Start the game when the player enters the trigger
+            Debug.Log("Trigger Activated: Game Starting!");
+            playerController.StartGame(); // Start the game and change the music
         }
     }
 }
