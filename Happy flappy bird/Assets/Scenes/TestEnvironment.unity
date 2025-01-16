@@ -313,7 +313,7 @@ MonoBehaviour:
   - {fileID: 3713104444964819695, guid: 2f3f7d4927009b84583c02fcbc509217, type: 3}
   groundObjects: 0101010001
   poolSize: 5
-  spawnInterval: 10
+  spawnInterval: 5
   forwardDistance: 25
   minXOffset: -5
   maxXOffset: 5

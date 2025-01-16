@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3454016210218445181
+--- !u!1001 &7653867750274424701
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -26,15 +26,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 53.011215
+      value: 3.6613753
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.0031137
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 61.09433
+      value: 30.844122
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: m_LocalRotation.w
@@ -90,7 +90,7 @@ PrefabInstance:
       objectReference: {fileID: 2100000, guid: 1da4bc7dfbe661648b65b208a99d454e, type: 2}
     - target: {fileID: 919132149155446097, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: m_Name
-      value: beaver
+      value: beaver 1
       objectReference: {fileID: 0}
     - target: {fileID: 4622381158683197866, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'
@@ -107,53 +107,5 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 7700501651197309198}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 4455139784884702128}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
---- !u!1 &2535043494679925804 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 0c4711964899a244c84ca07568ba85b3, type: 3}
-  m_PrefabInstance: {fileID: 3454016210218445181}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &7700501651197309198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2535043494679925804}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fc4791764062f84eacfe88aff994208, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jumpHeight: 5
-  jumpInterval: 2
-  jumpDuration: 1
---- !u!64 &4455139784884702128
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2535043494679925804}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 1
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}

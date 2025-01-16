@@ -44,6 +44,9 @@ public class ObstacleSpawner : MonoBehaviour
     // The obstacle pool
     private List<GameObject> obstaclePool = new List<GameObject>();
 
+    // Här lagrar vi: "detta GameObject" -> "vilket index av obstaclePrefabs"
+    private Dictionary<GameObject, int> obstacleIndexMap = new Dictionary<GameObject, int>();
+
     // Coroutine for continuous spawning
     private Coroutine spawnRoutine;
 
@@ -67,6 +70,25 @@ public class ObstacleSpawner : MonoBehaviour
     }
 
     /// <summary>
+    /// Update: kolla om spelaren är 10 enheter framför något aktivt hinder och stäng av det.
+    /// </summary>
+    void Update()
+    {
+        for (int i = 0; i < obstaclePool.Count; i++)
+        {
+            GameObject obstacle = obstaclePool[i];
+            if (obstacle.activeInHierarchy)
+            {
+                // Om spelarens Z-pos är minst 10 större än hindrets Z-pos
+                if (player.position.z - obstacle.transform.position.z > 10f)
+                {
+                    DeactivateObstacle(obstacle);
+                }
+            }
+        }
+    }
+
+    /// <summary>
     /// Creates the pool by first instantiating one of each prefab,
     /// then filling up the rest (if poolSize > 5) with random picks.
     /// </summary>
@@ -78,11 +100,9 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject obstacleInstance = Instantiate(obstaclePrefabs[i]);
             obstacleInstance.SetActive(false);
 
-            // Attach ObstacleIndex script so we know which prefab index it corresponds to
-            ObstacleIndex oi = obstacleInstance.AddComponent<ObstacleIndex>();
-            oi.prefabIndex = i; // store the index
-
             obstaclePool.Add(obstacleInstance);
+            // Koppla objektet -> index
+            obstacleIndexMap[obstacleInstance] = i;
         }
 
         // Next, fill remaining slots if poolSize > number of prefabs
@@ -92,11 +112,9 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject obstacleInstance = Instantiate(obstaclePrefabs[randomIndex]);
             obstacleInstance.SetActive(false);
 
-            // Attach ObstacleIndex script
-            ObstacleIndex oi = obstacleInstance.AddComponent<ObstacleIndex>();
-            oi.prefabIndex = randomIndex;
-
             obstaclePool.Add(obstacleInstance);
+            // Koppla objektet -> randomIndex
+            obstacleIndexMap[obstacleInstance] = randomIndex;
         }
     }
 
@@ -125,11 +143,10 @@ public class ObstacleSpawner : MonoBehaviour
             return;
         }
 
-        // Identify which prefab index it corresponds to
-        ObstacleIndex oi = obstacle.GetComponent<ObstacleIndex>();
-        int prefabIndex = oi.prefabIndex;
+        // Hämta vilket prefab-index detta objekt ursprungligen skapades från
+        int prefabIndex = obstacleIndexMap[obstacle];
 
-        // Decide if it's ground-only
+        // Kolla om det ska placeras på marken
         bool mustBeOnGround = groundObjects[prefabIndex];
 
         // Base position directly in front of the player (along +Z)
@@ -143,12 +160,12 @@ public class ObstacleSpawner : MonoBehaviour
 
         if (mustBeOnGround)
         {
-            // If ground-only, set the Y to 'groundY' (no raycast)
+            // If ground-only, set the Y to 'groundY'
             spawnPosition.y = groundY;
         }
         else
         {
-            // If not ground-only, randomize X and Y
+            // Randomize X and Y
             float offsetX = Random.Range(minXOffset, maxXOffset);
             float offsetY = Random.Range(minYOffset, maxYOffset);
 
