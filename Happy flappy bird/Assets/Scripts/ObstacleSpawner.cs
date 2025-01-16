@@ -41,10 +41,16 @@ public class ObstacleSpawner : MonoBehaviour
     [Tooltip("If the object is ground-only, place it here on the Y-axis.")]
     public float groundY = 0f;
 
+    [Header("Absolute X Range for Ground Objects")]
+    [Tooltip("Lowest (leftmost) X world position for ground-only spawns.")]
+    public float groundMinXPos = -5f;
+    [Tooltip("Highest (rightmost) X world position for ground-only spawns.")]
+    public float groundMaxXPos = 5f;
+
     // The obstacle pool
     private List<GameObject> obstaclePool = new List<GameObject>();
 
-    // Här lagrar vi: "detta GameObject" -> "vilket index av obstaclePrefabs"
+    // Map: "this GameObject" -> "which index of obstaclePrefabs"
     private Dictionary<GameObject, int> obstacleIndexMap = new Dictionary<GameObject, int>();
 
     // Coroutine for continuous spawning
@@ -70,7 +76,7 @@ public class ObstacleSpawner : MonoBehaviour
     }
 
     /// <summary>
-    /// Update: kolla om spelaren är 10 enheter framför något aktivt hinder och stäng av det.
+    /// Checks if the player is 10 units ahead of any active obstacle; if so, return it to the pool.
     /// </summary>
     void Update()
     {
@@ -79,7 +85,7 @@ public class ObstacleSpawner : MonoBehaviour
             GameObject obstacle = obstaclePool[i];
             if (obstacle.activeInHierarchy)
             {
-                // Om spelarens Z-pos är minst 10 större än hindrets Z-pos
+                // If player's Z-pos is at least 10 greater than the obstacle's Z-pos
                 if (player.position.z - obstacle.transform.position.z > 10f)
                 {
                     DeactivateObstacle(obstacle);
@@ -101,11 +107,11 @@ public class ObstacleSpawner : MonoBehaviour
             obstacleInstance.SetActive(false);
 
             obstaclePool.Add(obstacleInstance);
-            // Koppla objektet -> index
+            // Map object -> index
             obstacleIndexMap[obstacleInstance] = i;
         }
 
-        // Next, fill remaining slots if poolSize > number of prefabs
+        // Fill remaining slots if poolSize > number of prefabs
         for (int i = obstaclePrefabs.Length; i < poolSize; i++)
         {
             int randomIndex = Random.Range(0, obstaclePrefabs.Length);
@@ -113,7 +119,7 @@ public class ObstacleSpawner : MonoBehaviour
             obstacleInstance.SetActive(false);
 
             obstaclePool.Add(obstacleInstance);
-            // Koppla objektet -> randomIndex
+            // Map object -> randomIndex
             obstacleIndexMap[obstacleInstance] = randomIndex;
         }
     }
@@ -143,29 +149,32 @@ public class ObstacleSpawner : MonoBehaviour
             return;
         }
 
-        // Hämta vilket prefab-index detta objekt ursprungligen skapades från
+        // Find which prefab index this object originally came from
         int prefabIndex = obstacleIndexMap[obstacle];
 
-        // Kolla om det ska placeras på marken
+        // Check if it's ground-only
         bool mustBeOnGround = groundObjects[prefabIndex];
 
-        // Base position directly in front of the player (along +Z)
-        Vector3 basePosition = new Vector3(
+        // Base position in front of the player (along +Z)
+        Vector3 spawnPosition = new Vector3(
             player.position.x,
             player.position.y,
             player.position.z + forwardDistance
         );
 
-        Vector3 spawnPosition = basePosition;
-
         if (mustBeOnGround)
         {
-            // If ground-only, set the Y to 'groundY'
+            // Y is fixed at groundY
             spawnPosition.y = groundY;
+
+            // Instead of offset from player.x, 
+            // we pick a random world-space X between groundMinXPos and groundMaxXPos
+            float randomX = Random.Range(groundMinXPos, groundMaxXPos);
+            spawnPosition.x = randomX;
         }
         else
         {
-            // Randomize X and Y
+            // If not ground-only, randomize X and Y offset from player's position
             float offsetX = Random.Range(minXOffset, maxXOffset);
             float offsetY = Random.Range(minYOffset, maxYOffset);
 
@@ -184,7 +193,6 @@ public class ObstacleSpawner : MonoBehaviour
     GameObject GetRandomInactiveObstacle()
     {
         List<GameObject> inactiveObstacles = obstaclePool.FindAll(o => !o.activeInHierarchy);
-
         if (inactiveObstacles.Count == 0)
             return null;
 

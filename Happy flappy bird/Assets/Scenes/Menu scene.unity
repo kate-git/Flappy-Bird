@@ -2307,6 +2307,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2630035904647371880, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
+      propertyPath: m_text
+      value: Escape the cage
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630035904647371880, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+    - target: {fileID: 2630035904647371880, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2630035904647371880, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: 2140032, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+    - target: {fileID: 2630035904647371880, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2662476922666976731, guid: aff0e24a5e2cfd943af02c6f77ab8169, type: 3}
       propertyPath: m_PresetInfoIsWorld
       value: 1
