@@ -227,11 +227,7 @@ Transform:
   m_GameObject: {fileID: 38062870}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-
   m_LocalPosition: {x: 0, y: 0, z: 0}
-
-  m_LocalPosition: {x: -1.85, y: -11.805, z: 0}
-
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -315,7 +311,7 @@ MonoBehaviour:
   - {fileID: 8963877299900406259, guid: 4ec802ba1f04efc43bf3cab2b7d52632, type: 3}
   - {fileID: 3095149969777565720, guid: 75e949c117a8d6f47b32f641c175ffae, type: 3}
   - {fileID: 2427332550909404545, guid: b7530df4fd2f1d148b8e4860d2bc706b, type: 3}
-  - {fileID: 3713104444964819695, guid: 2f3f7d4927009b84583c02fcbc509217, type: 3}
+  - {fileID: 5133134856080753362, guid: 8ff3ddb854662b74e89d380a5e88db1a, type: 3}
   groundObjects: 0101010001
   poolSize: 5
   spawnInterval: 5
@@ -825,9 +821,4 @@ SceneRoots:
   - {fileID: 122726965}
   - {fileID: 38062874}
   - {fileID: 1581561048}
-
-
-  - {fileID: 1382835163}
-  - {fileID: 1760124736}
   - {fileID: 1072078179}
-
