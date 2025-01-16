@@ -326,7 +326,7 @@ MonoBehaviour:
   maxYOffset: 3
   groundY: -13
   groundMinXPos: -16
-  groundMaxXPos: 7
+  groundMaxXPos: 5.7
 --- !u!114 &38062879
 MonoBehaviour:
   m_ObjectHideFlags: 0
