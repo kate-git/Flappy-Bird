@@ -1,0 +1,10 @@
+# ninja log v5
+20	728	7586683669105463	GameActivity/CMakeFiles/game.dir/UGAInputKeyEvent.cpp.o	dffce196ceee2c21
+14	744	7586683669271336	GameActivity/CMakeFiles/game.dir/UGAEntry.cpp.o	1a29737c0010705f
+5	778	7586683669520128	GameActivity/CMakeFiles/game.dir/UGAConfiguration.cpp.o	134a29f34d14fd8
+32	884	7586683670525250	GameActivity/CMakeFiles/game.dir/UGAInputMotionEvent.cpp.o	1213d3e1762117ff
+38	924	7586683670881000	GameActivity/CMakeFiles/game.dir/UGASoftKeyboard.cpp.o	eaf0f7502601301c
+0	925	7586683671017401	GameActivity/CMakeFiles/game.dir/UGADebug.cpp.o	d8d232a1ffbf3220
+25	1090	7586683672764266	GameActivity/CMakeFiles/game.dir/UGAInput.cpp.o	32c659e7dc29ae79
+10	1174	7586683673614304	GameActivity/CMakeFiles/game.dir/UGAApplication.cpp.o	c14b0bb61f22ba13
+1174	1287	7586683674805677	C:/Users/mamin/Documents/GitHub/HappyFlappy/Flappy-Bird/Happy flappy bird/Library/Bee/Android/Prj/IL2CPP/Gradle/unityLibrary/build/intermediates/cxx/RelWithDebInfo/3z5n5c16/obj/armeabi-v7a/libgame.so	9ce4ec97a6141b1b

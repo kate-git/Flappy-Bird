@@ -1,0 +1,2 @@
+C:\Users\mamin\Documents\GitHub\HappyFlappy\Flappy-Bird\Happy flappy bird\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\CMakeLists.txt
+C:\Users\mamin\Documents\GitHub\HappyFlappy\Flappy-Bird\Happy flappy bird\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\src\main\cpp\GameActivity\CMakeLists.txt

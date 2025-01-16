@@ -120,11 +120,23 @@ public class HandTracker : MonoBehaviour
 
         Debug.Log("Flap applied: Lift and forward forces");
 
-        // Trigger haptic feedback
-        TriggerHapticFeedback();
+        // Trigger haptic feedback om flapping är aktivt
+        if (isFlapping)
+        {
+            TriggerHapticFeedback();
+        }
 
         // Återställ flapping status efter en kort stund
         Invoke(nameof(ResetFlapping), 0.1f);
+    }
+
+    bool BothHandsMoved()
+    {
+        // Kontrollera om båda händerna har rört sig
+        Vector3 leftHandMovement = leftHandAnchor.position - previousLeftHandPosition;
+        Vector3 rightHandMovement = rightHandAnchor.position - previousRightHandPosition;
+
+        return leftHandMovement.magnitude > flapThreshold && rightHandMovement.magnitude > flapThreshold;
     }
 
     void ResetFlapping()
@@ -132,10 +144,7 @@ public class HandTracker : MonoBehaviour
         isFlapping = false;
 
         // Sätt Animator-parametern IsJumping till false
-        if (birdAnimator != null)
-        {
-            birdAnimator.SetBool("IsJumping", false);
-        }
+        birdAnimator?.SetBool("IsJumping", false);
     }
 
     void TriggerHapticFeedback()
