@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Happy flappy bird/Assets/Scenes/Hapticstest.unity.meta
 guid: 3252e0ac21f4b9b43ad998805b177d37
 DefaultImporter:
+========
+guid: c02c7fbae267dd041a91809c0fc1e11c
+PrefabImporter:
+>>>>>>>> 83b67e7 (Ray interactor):Happy flappy bird/Assets/Scenes/XR Origin (XR Rig).prefab.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
