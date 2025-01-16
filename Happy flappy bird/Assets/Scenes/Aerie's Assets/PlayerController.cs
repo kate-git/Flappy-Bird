@@ -2,27 +2,42 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    public float forwardSpeed = 5f; // How fast the player moves forward
-    public bool gameStarted = false; // Whether the game has started or not
-    public AudioSource gameMusic; // The audio source to play music when the game starts
+    public bool GameStarted = false; // Indicates whether the game has started
+    public AudioSource backgroundMusic; // The AudioSource for music
+    public AudioClip gameStartMusic;    // The music to play after the game starts
+    public float moveSpeed = 5f;       // Speed at which the player moves forward
+
+    void Start()
+    {
+        // Ensure the background music is set up
+        if (backgroundMusic == null)
+        {
+            Debug.LogWarning("Background music AudioSource is not assigned!");
+        }
+    }
 
     void Update()
     {
         // If the game has started, move the player forward
-        if (gameStarted)
+        if (GameStarted)
         {
-            // Move the player forward continuously
-            transform.Translate(Vector3.forward * forwardSpeed * Time.deltaTime);
+            transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
         }
     }
 
-    // This method will be called when the player collides with the start trigger
     public void StartGame()
     {
-        if (gameMusic != null)
+        // Set the game as started
+        GameStarted = true;
+
+        // Change the music when the game starts
+        if (backgroundMusic != null && gameStartMusic != null)
         {
-            gameMusic.Play(); // Play the music when the game starts
+            backgroundMusic.Stop();               // Stop the current music
+            backgroundMusic.clip = gameStartMusic; // Assign the new music
+            backgroundMusic.Play();               // Play the new music
         }
-        gameStarted = true; // Set gameStarted to true, which begins the player's forward movement
+
+        Debug.Log("Game Started! Moving forward and playing new music.");
     }
 }
