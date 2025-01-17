@@ -6,11 +6,25 @@ using UnityEngine.XR;
 public class ButtonClickHandler : MonoBehaviour
 {
     public Button menuButton; // Reference to the UI Button
+    private bool isInteractable = false; // Tracks if the button can be interacted with
+    private float delayTime = 10f; // Delay time in seconds
+
+    void Start()
+    {
+        // Ensure the button is initially not interactable
+        if (menuButton != null)
+        {
+            menuButton.interactable = false;
+        }
+
+        // Start a delayed activation
+        Invoke(nameof(EnableButtonInteraction), delayTime);
+    }
 
     void Update()
     {
-        // Check if the "A" button on the Oculus controller or "R" key is pressed
-        if (CheckOculusButtonA() || Input.GetKeyDown(KeyCode.R))
+        // Only check for input if the button is interactable
+        if (isInteractable && (CheckOculusButtonA() || Input.GetKeyDown(KeyCode.R)))
         {
             Debug.Log("A Button or R Key Pressed!");
 
@@ -41,5 +55,17 @@ public class ButtonClickHandler : MonoBehaviour
     {
         Debug.Log("Loading Scene: TestEnvironment");
         SceneManager.LoadScene("TestEnvironment");
+    }
+
+    private void EnableButtonInteraction()
+    {
+        isInteractable = true;
+
+        if (menuButton != null)
+        {
+            menuButton.interactable = true; // Enable the button visually
+        }
+
+        Debug.Log("Button is now interactable!");
     }
 }
