@@ -143,6 +143,7 @@ PlayerSettings:
   bundleVersion: 0.1.0
   preloadedAssets:
   - {fileID: 11400000, guid: d0aff32408e257f4ab0d6e9796278764, type: 2}
+  - {fileID: -2564958895696433466, guid: 2a36b701505135c4b96b34e6d1ec19ff, type: 2}
   - {fileID: -3420834211277148496, guid: 8abc38169fa24974dafb29db9e3eb749, type: 2}
   - {fileID: 11400000, guid: 905ae31bafc396b49bb9e9a7572ac763, type: 2}
   metroInputSource: 0
@@ -869,7 +870,7 @@ PlayerSettings:
   suppressCommonWarnings: 1
   allowUnsafeCode: 0
   useDeterministicCompilation: 1
-  additionalIl2CppArgs: --compiler-flags="     -flto=thin"
+  additionalIl2CppArgs: 
   scriptingRuntimeVersion: 1
   gcIncremental: 1
   gcWBarrierValidation: 0
