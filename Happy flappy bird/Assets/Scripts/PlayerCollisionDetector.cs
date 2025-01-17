@@ -2,31 +2,24 @@ using UnityEngine;
 
 public class PlayerCollisionDetector : MonoBehaviour
 {
-    public EndMenuController endMenuController; // Reference to the EndMenuController script
+    public EndMenuHandler endMenuHandler; // Reference to the End Menu Handler
+    public int playerScore;              // Current player score (should be updated during gameplay)
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Check if the collided object has the tag "Obstacle"
         if (collision.gameObject.CompareTag("Obstacle"))
         {
             Debug.Log("Collided with obstacle. Game Over!");
-            GameOver();
-        }
-    }
 
-    void GameOver()
-    {
-        // Show the end menu
-        if (endMenuController != null)
-        {
-            endMenuController.ShowEndMenu(); // Call the method to display the end menu
-        }
-        else
-        {
-            Debug.LogWarning("EndMenuController reference is not set!");
-        }
+            // Trigger the End Menu and pass the score
+            if (endMenuHandler != null)
+            {
+                endMenuHandler.ShowEndMenu(playerScore);
+            }
 
-        // Optional: Add other game over logic (e.g., stop player movement, reset game state, etc.)
+            // Optionally, disable the player's controls or movement
+            GetComponent<PlayerController>().enabled = false;
+        }
     }
 }
 
