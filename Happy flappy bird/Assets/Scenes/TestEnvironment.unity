@@ -338,6 +338,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ec4b08a0dabea9740a6935a82266ffee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  endMenuController: {fileID: 0}
 --- !u!114 &38062880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,7 +374,7 @@ MonoBehaviour:
   minX: -16
   maxX: 5.7
   minY: -13
-  maxY: 3
+  maxY: 3.1
   coinCount: 0
   coinCollectSound: {fileID: 8300000, guid: 98513bffde6485d4595f39eac401c63c, type: 3}
 --- !u!82 &38062882
