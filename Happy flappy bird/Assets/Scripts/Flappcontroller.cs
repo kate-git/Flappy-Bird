@@ -17,6 +17,8 @@ public class HandTracker : MonoBehaviour
 
     public Rigidbody birdRigidbody; // Fågelns Rigidbody
     public Animator birdAnimator; // Animator-komponenten för fågeln
+    public AudioSource audioSource; // AudioSource för ljuduppspelning
+    public AudioClip flapSound; // Ljudklipp som spelas vid flax
 
     public float vibrationStrength = 0.5f; // Styrka för haptisk feedback
     public float vibrationDuration = 0.1f; // Varaktighet för haptisk feedback
@@ -26,7 +28,7 @@ public class HandTracker : MonoBehaviour
 
     void Start()
     {
-        if (leftHandAnchor == null || rightHandAnchor == null || headAnchor == null || birdRigidbody == null || birdAnimator == null)
+        if (leftHandAnchor == null || rightHandAnchor == null || headAnchor == null || birdRigidbody == null || birdAnimator == null || audioSource == null)
         {
             Debug.LogError("HandTracker: Missing references. Please assign all required components.");
         }
@@ -40,7 +42,8 @@ public class HandTracker : MonoBehaviour
         if (leftHandAnchor != null && rightHandAnchor != null && headAnchor != null)
         {
             // Beräkna rörelser för båda händerna relativt till deras tidigare position
-            Vector3 leftHandMovement = leftHandAnchor.position - previousLeftHandPosition;
+            Vector3 vector3 = leftHandAnchor.position - previousLeftHandPosition;
+            Vector3 leftHandMovement = vector3;
             Vector3 rightHandMovement = rightHandAnchor.position - previousRightHandPosition;
 
             // Kontrollera handhöjden relativt till huvudet
@@ -91,9 +94,9 @@ public class HandTracker : MonoBehaviour
 
     void Flap()
     {
-        if (birdRigidbody == null || birdAnimator == null)
+        if (birdRigidbody == null || birdAnimator == null || audioSource == null)
         {
-            Debug.LogError("Missing Rigidbody or Animator! Cannot execute flap.");
+            Debug.LogError("Missing Rigidbody, Animator, or AudioSource! Cannot execute flap.");
             return;
         }
 
@@ -102,17 +105,39 @@ public class HandTracker : MonoBehaviour
         // Sätt Animator-parametern IsJumping till true
         birdAnimator.SetBool("IsJumping", true);
 
+        // Spela upp ljud för flax
+        if (flapSound != null)
+        {
+            audioSource.PlayOneShot(flapSound);
+        }
+        else
+        {
+            Debug.LogWarning("Flap sound not assigned!");
+        }
+
         // Applicera krafterna
         birdRigidbody.AddForce(Vector3.up * liftForce, ForceMode.Impulse);
         birdRigidbody.AddForce(Vector3.forward * forwardForce, ForceMode.Impulse);
 
         Debug.Log("Flap applied: Lift and forward forces");
 
-        // Trigger haptic feedback
-        TriggerHapticFeedback();
+        // Trigger haptic feedback om flapping är aktivt
+        if (isFlapping)
+        {
+            TriggerHapticFeedback();
+        }
 
         // Återställ flapping status efter en kort stund
         Invoke(nameof(ResetFlapping), 0.1f);
+    }
+
+    bool BothHandsMoved()
+    {
+        // Kontrollera om båda händerna har rört sig
+        Vector3 leftHandMovement = leftHandAnchor.position - previousLeftHandPosition;
+        Vector3 rightHandMovement = rightHandAnchor.position - previousRightHandPosition;
+
+        return leftHandMovement.magnitude > flapThreshold && rightHandMovement.magnitude > flapThreshold;
     }
 
     void ResetFlapping()
@@ -120,10 +145,7 @@ public class HandTracker : MonoBehaviour
         isFlapping = false;
 
         // Sätt Animator-parametern IsJumping till false
-        if (birdAnimator != null)
-        {
-            birdAnimator.SetBool("IsJumping", false);
-        }
+        birdAnimator?.SetBool("IsJumping", false);
     }
 
     void TriggerHapticFeedback()

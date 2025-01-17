@@ -29,10 +29,13 @@ public class Haptics : MonoBehaviour
 
     private int controllerLayerIndex; // Index of the "Controller" layer in Animator
 
+    public AudioSource flapSound; // AudioSource for jumping
+    public AudioSource windSound; // AudioSource for gliding
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        
+
         if (!TryGetComponent<Animator>(out playerAnimator))
         {
             Debug.LogWarning("Player Animator is not assigned. Animations may not play correctly.");
@@ -67,7 +70,12 @@ public class Haptics : MonoBehaviour
         if (canJump && (OVRInput.GetDown(jumpButton) || Input.GetKeyDown(KeyCode.Space)))
         {
             Jump();
-            TriggerHapticFeedback(jumpVibrationStrength, jumpVibrationDuration);
+            // Trigger haptic feedback only if the player is jumping
+            if (playerAnimator != null && playerAnimator.GetBool("IsJumping"))
+            {
+                TriggerHapticFeedback(jumpVibrationStrength, jumpVibrationDuration);
+            }
+            PlayJumpSound(); // Play flap sound when jumping
         }
     }
 
@@ -83,6 +91,7 @@ public class Haptics : MonoBehaviour
         else
         {
             isParagliding = false;
+            StopGlideSound(); // Stop glide sound when not paragliding
         }
 
         if (isParagliding)
@@ -90,15 +99,13 @@ public class Haptics : MonoBehaviour
             ApplyParaglide(paraglideDrag);
             IncreaseForwardSpeedWhileGliding();
             TriggerHapticFeedback(glideVibrationStrength, glideVibrationDuration);
+            PlayGlideSound(); // Play wind sound when gliding
         }
     }
 
     private void UpdateAnimator()
     {
-        if (playerAnimator != null)
-        {
-            playerAnimator.SetBool("IsJumping", !canJump);
-        }
+        playerAnimator?.SetBool("IsJumping", !canJump);
     }
 
     void Jump()
@@ -106,11 +113,8 @@ public class Haptics : MonoBehaviour
         rb.AddForce(Vector3.up * Jump_Force, ForceMode.Impulse);
         rb.AddForce(transform.forward * ForwardForce, ForceMode.Impulse);
 
-        if (playerAnimator != null)
-        {
-            // Set the IsJumping parameter to true
-            playerAnimator.SetBool("IsJumping", true);
-        }
+        // Set the IsJumping parameter to true
+        playerAnimator?.SetBool("IsJumping", true);
 
         canJump = false;
         StartCoroutine(JumpCooldown());
@@ -121,11 +125,8 @@ public class Haptics : MonoBehaviour
         yield return new WaitForSeconds(jumpCooldown);
         canJump = true;
 
-        if (playerAnimator != null)
-        {
-            // Reset the IsJumping parameter
-            playerAnimator.SetBool("IsJumping", false);
-        }
+        // Reset the IsJumping parameter
+        playerAnimator?.SetBool("IsJumping", false);
     }
 
     private void ApplyParaglide(float dragAmount)
@@ -154,5 +155,29 @@ public class Haptics : MonoBehaviour
         yield return new WaitForSeconds(duration);
         OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.LTouch);
         OVRInput.SetControllerVibration(0, 0, OVRInput.Controller.RTouch);
+    }
+
+    private void PlayJumpSound()
+    {
+        if (flapSound != null && !flapSound.isPlaying)
+        {
+            flapSound.Play();
+        }
+    }
+
+    private void PlayGlideSound()
+    {
+        if (windSound != null && !windSound.isPlaying)
+        {
+            windSound.Play();
+        }
+    }
+
+    private void StopGlideSound()
+    {
+        if (windSound != null && windSound.isPlaying)
+        {
+            windSound.Stop();
+        }
     }
 }
