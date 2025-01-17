@@ -1,15 +1,8 @@
 using UnityEngine;
 
-/// <summary>
-/// Attach this script to the Player's GameObject.
-/// It will detect collisions (not triggers) with objects tagged "Obstacle"
-/// and then call GameOver().
-/// </summary>
 public class PlayerCollisionDetector : MonoBehaviour
 {
-    // Optional: if you have a GameManager or another script that handles Game Over logic,
-    // you can reference it here.
-    // public GameManager gameManager; 
+    public EndMenuController endMenuController; // Reference to the EndMenuController script
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -23,16 +16,17 @@ public class PlayerCollisionDetector : MonoBehaviour
 
     void GameOver()
     {
-        // Example: just log a message or do your actual game over logic.
-        // if (gameManager != null)
-        // {
-        //     gameManager.TriggerGameOver();
-        // }
-        // else
-        // {
-        //     Debug.Log("Game Over - no GameManager referenced.");
-        // }
+        // Show the end menu
+        if (endMenuController != null)
+        {
+            endMenuController.ShowEndMenu(); // Call the method to display the end menu
+        }
+        else
+        {
+            Debug.LogWarning("EndMenuController reference is not set!");
+        }
 
-        Debug.Log("GAME OVER logic goes here!");
+        // Optional: Add other game over logic (e.g., stop player movement, reset game state, etc.)
     }
 }
+
